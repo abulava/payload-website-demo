@@ -65,6 +65,7 @@ export default buildConfig({
     },
   }),
   collections: [Pages, Posts, Media, Categories, Users],
+  serverURL: getServerSideURL(),
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [
