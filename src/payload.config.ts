@@ -91,20 +91,5 @@ export default buildConfig({
       },
     },
     tasks: [],
-    autoRun: [
-      {
-        cron: '*/5 * * * *', // every 5 minutes
-        limit: 100, // limit jobs to process each run
-        queue: 'default', // name of the queue
-      },
-    ],
-    jobsCollectionOverrides: ({ defaultJobsCollection }) => {
-      if (!defaultJobsCollection.admin) {
-        defaultJobsCollection.admin = {}
-      }
-
-      defaultJobsCollection.admin.hidden = false
-      return defaultJobsCollection
-    },
   },
 })
