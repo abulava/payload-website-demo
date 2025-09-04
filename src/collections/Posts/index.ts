@@ -227,7 +227,7 @@ export const Posts: CollectionConfig<'posts'> = {
   versions: {
     drafts: {
       autosave: false,
-      schedulePublish: true,
+      schedulePublish: false,
     },
     maxPerDoc: 50,
   },
