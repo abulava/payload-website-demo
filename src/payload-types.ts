@@ -768,6 +768,7 @@ export interface Form {
  */
 export interface Redirect {
   id: number;
+  tenant?: (number | null) | Tenant;
   /**
    * You will need to rebuild the website when changing this field.
    */
@@ -1256,6 +1257,7 @@ export interface TenantsSelect<T extends boolean = true> {
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
+  tenant?: T;
   from?: T;
   to?:
     | T
