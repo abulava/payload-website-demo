@@ -3,6 +3,7 @@ import * as migration_20250826_085849_drop_autosave_from_posts from './20250826_
 import * as migration_20250826_122833_drop_autosave_from_pages from './20250826_122833_drop_autosave_from_pages';
 import * as migration_20250904_072706_drop_payload_jobs from './20250904_072706_drop_payload_jobs';
 import * as migration_20250919_080059_enable_multi_tenant from './20250919_080059_enable_multi_tenant';
+import * as migration_20250919_082907_add_tenant_to_redirects from './20250919_082907_add_tenant_to_redirects';
 
 export const migrations = [
   {
@@ -28,6 +29,11 @@ export const migrations = [
   {
     up: migration_20250919_080059_enable_multi_tenant.up,
     down: migration_20250919_080059_enable_multi_tenant.down,
-    name: '20250919_080059_enable_multi_tenant'
+    name: '20250919_080059_enable_multi_tenant',
+  },
+  {
+    up: migration_20250919_082907_add_tenant_to_redirects.up,
+    down: migration_20250919_082907_add_tenant_to_redirects.down,
+    name: '20250919_082907_add_tenant_to_redirects'
   },
 ];

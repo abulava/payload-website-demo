@@ -29,7 +29,11 @@ const generateURL: GenerateURL<Post | Page> = ({ doc }) => {
 
 export const plugins: Plugin[] = [
   redirectsPlugin({
-    collections: ['pages', 'posts'],
+    // FIXME: empty "collections" don't allow using "To URL Type" === "Internal link"
+    // because internal links go beyond a single tenant
+
+    // collections: ['pages', 'posts'],
+
     overrides: {
       admin: {
         group: 'Settings',
@@ -115,9 +119,7 @@ export const plugins: Plugin[] = [
       posts: {},
       media: {},
       categories: {},
-
-      // TODO: non-trivial, comes from a plugin
-      // redirects: {},
+      redirects: {},
 
       // TODO: convert from Global to ordinary Collection
       // https://www.buildwithmatija.com/blog/how-to-configure-globals-with-multi-tenant-plugin-in-payload-cms
