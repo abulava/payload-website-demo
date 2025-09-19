@@ -1,3 +1,4 @@
+import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
@@ -11,8 +12,10 @@ import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
-import { Page, Post } from '@/payload-types'
+import { Config, Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
+import { isSuperAdmin } from '@/access/superAdmin'
+import { getUserTenantIDs } from '@/utilities/getUserTenantIDs'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
@@ -105,4 +108,40 @@ export const plugins: Plugin[] = [
     },
   }),
   payloadCloudPlugin(),
+  multiTenantPlugin<Config>({
+    tenantSelectorLabel: 'Switch Website',
+    collections: {
+      pages: {},
+      posts: {},
+      media: {},
+      categories: {},
+
+      // TODO: non-trivial, comes from a plugin
+      // redirects: {},
+
+      // TODO: convert from Global to ordinary Collection
+      // https://www.buildwithmatija.com/blog/how-to-configure-globals-with-multi-tenant-plugin-in-payload-cms
+      // header: {
+      //   isGlobal: true,
+      // },
+      // footer: {
+      //   isGlobal: true,
+      // },
+    },
+    tenantField: {
+      access: {
+        read: () => true,
+        update: ({ req }) => {
+          if (isSuperAdmin(req.user)) {
+            return true
+          }
+          return getUserTenantIDs(req.user).length > 0
+        },
+      },
+    },
+    tenantsArrayField: {
+      includeDefaultField: false,
+    },
+    userHasAccessToAllTenants: (user) => isSuperAdmin(user),
+  }),
 ]
