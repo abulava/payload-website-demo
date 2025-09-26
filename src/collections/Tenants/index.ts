@@ -1,7 +1,8 @@
 import type { CollectionConfig } from 'payload'
 
-import { superAdmin } from '../../access/superAdmin'
+import { superAdmin } from '@/access/superAdmin'
 import { updateAndDelete } from './access/updateAndDelete'
+import { anyone } from '@/access/anyone'
 
 export const Tenants: CollectionConfig = {
   slug: 'tenants',
@@ -12,7 +13,8 @@ export const Tenants: CollectionConfig = {
   access: {
     create: superAdmin,
     delete: updateAndDelete,
-    read: ({ req }) => Boolean(req.user),
+    // read: ({ req }) => Boolean(req.user),
+    read: anyone,
     update: updateAndDelete,
   },
   admin: {

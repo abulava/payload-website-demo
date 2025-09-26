@@ -37,6 +37,20 @@ const nextConfig = {
   },
   reactStrictMode: true,
   redirects,
+  async rewrites() {
+    return [
+      {
+        source: '/:path((?!admin|api).*)',
+        destination: '/:tenant/:path*',
+        has: [
+          {
+            type: 'host',
+            value: '(?<tenant>.*)',
+          },
+        ],
+      },
+    ]
+  },
 }
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
